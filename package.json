@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/caryll/bddy#readme",
   "dependencies": {
-    "colors": "^1.1.2"
+    "child-process-promise": "^2.2.1",
+    "colors": "^1.1.2",
+    "minimatch": "^3.0.4"
   }
 }
