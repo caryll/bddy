@@ -1,4 +1,4 @@
-const { def, run, file } = require('../index');
+const { def, run, file, virt } = require('../index');
 const fs = require('fs-extra')
 
 const dir = file(`${__dirname}/sample1`);
@@ -14,9 +14,13 @@ const recipe = def(function () {
 		await this.command('cp', prerequisites[0], target);
 	});
 
+	this.forall('knot', async function (target) {
+		await this.need(file(`${dir}/b.txt`));
+	});
+
 	this.forall(`${dir}/d.txt`, async function (target) {
-		let prerequisites = await this.need(file(`${dir}/b.txt`));
-		await this.command('cp', prerequisites[0], target);
+		let prerequisites = await this.need(virt('knot'));
+		await this.command('cp', `${dir}/b.txt`, target);
 	});
 
 	this.forall(`${dir}/e.txt`, async function (target) {
