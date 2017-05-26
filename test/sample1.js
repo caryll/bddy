@@ -1,7 +1,7 @@
 const { def, run, file } = require('../index');
 const fs = require('fs-extra')
 
-const dir = 'test/sample1'
+const dir = file(`${__dirname}/sample1`);
 
 const recipe = def(function () {
 	this.forall(`${dir}/b.txt`, async function (target) {
@@ -25,6 +25,7 @@ const recipe = def(function () {
 		let txt2 = await fs.readFile(`${$2}`, 'utf-8');
 		console.log(txt1, txt2);
 		await fs.writeFile(`${target}`, txt1 + '\n\n' + txt2);
+		this.message(`${target} written.`)
 	});
 });
 
