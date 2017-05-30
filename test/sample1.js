@@ -4,7 +4,7 @@ const fs = require('fs-extra')
 
 const dir = file(`${__dirname}/sample1`);
 
-bddy().define(function () {
+bddy().loadPlugin(new Command).define(function () {
 	this.for(anyfile(`${dir}/b.txt`), async function (target) {
 		let prerequisites = await this.need(`${dir}/a.txt`);
 		await this.command('cp', prerequisites[0], target);
@@ -32,4 +32,4 @@ bddy().define(function () {
 		await fs.writeFile(`${target}`, txt1 + '\n\n' + txt2);
 		this.message(`${target} written.`)
 	});
-}).loadPlugin(new Command).wish(`${dir}/e.txt`);
+}).wish(`${dir}/e.txt`);
