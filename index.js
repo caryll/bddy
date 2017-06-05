@@ -18,7 +18,9 @@ const Command = require("./lib/plugins/command");
 const Dir = require("./lib/plugins/dir");
 
 exports.bddy = function(defs) {
-	let r = new engine.Context().loadDefinitions(existingFile).loadPlugin({ command: new Command(), dir: new Dir() });
+	let r = new engine.Context();
+	r.loadDefinitions(existingFile);
+	r.loadPlugin({ command: new Command(), dir: new Dir() });
 	if (defs) {
 		defs.call(r, r, (...a) => r.def(...a));
 	}
