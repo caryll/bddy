@@ -1,13 +1,26 @@
 const engine = require("./lib/engine");
-const { file } = require("./lib/targets/filepath");
-const { virt } = require("./lib/targets/virtual");
-const { anyfile } = require("./lib/cotargets/filepattern.js");
-const { anyvirtual } = require("./lib/cotargets/anyvirtual.js");
+const { file, anyfile } = require("./lib/targets/file");
+const { virt, anyvirt } = require("./lib/targets/virtual");
 
-exports.bddy = function() {
+exports._bddy = function() {
 	return new engine.Context();
 };
 exports.file = file;
 exports.virt = virt;
-exports.anyfile = anyfile;
-exports.anyvirtual = anyvirtual;
+exports.any = {
+	file: anyfile,
+	virt: anyvirt
+};
+
+//predefs
+const existingFile = require("./lib/predefs/existingFile");
+const Command = require("./lib/plugins/command");
+const Dir = require("./lib/plugins/dir");
+
+exports.bddy = function(defs) {
+	let r = new engine.Context().loadDefinitions(existingFile).loadPlugin({ command: new Command(), dir: new Dir() });
+	if (defs) {
+		defs.call(r, r, (...a) => r.def(...a));
+	}
+	return r;
+};
