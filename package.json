@@ -23,5 +23,8 @@
     "minimatch": "^3.0.4",
     "throat": "^3.0.0",
     "yargs": "^8.0.2"
+  },
+  "bin": {
+    "bddy": "./bin/bddy.js"
   }
 }
