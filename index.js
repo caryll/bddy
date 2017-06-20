@@ -19,11 +19,12 @@ exports.argv = argv;
 const existingFile = require("./lib/predefs/existingFile");
 const Command = require("./lib/plugins/command");
 const Dir = require("./lib/plugins/dir");
+const FileOps = require("./lib/plugins/fileops");
 
 exports.bddy = function(defs) {
 	let r = new engine.Context();
 	r.loadDefinitions(existingFile);
-	r.loadPlugin({ command: new Command(), dir: new Dir() });
+	r.loadPlugin({ command: new Command(), dir: new Dir(), fileops: new FileOps() });
 	if (defs) {
 		defs.call(r, r, (...a) => r.def(...a));
 	}
