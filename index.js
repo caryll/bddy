@@ -15,6 +15,7 @@ exports.virt = virt;
 
 //predefs
 const existingFile = require("./lib/predefs/existingFile");
+const Verda = require("./lib/plugins/verda");
 const Command = require("./lib/plugins/command");
 const Dir = require("./lib/plugins/dir");
 const FileOps = require("./lib/plugins/fileops");
@@ -22,6 +23,7 @@ const FileOps = require("./lib/plugins/fileops");
 exports.bddy = function(defs, argv) {
 	let r = new engine.Context();
 	r.loadDefinitions(existingFile);
+	r.loadPlugin({ verda: new Verda(argv) });
 	r.loadPlugin({ command: new Command(), dir: new Dir(), fileops: new FileOps() });
 	const forany = {};
 	for (let type in any) {
