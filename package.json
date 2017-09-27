@@ -1,6 +1,6 @@
 {
   "name": "bddy",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "First class, Secondary category, Unrestricted building system.",
   "main": "index.js",
   "scripts": {

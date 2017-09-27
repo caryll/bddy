@@ -1,5 +1,5 @@
 const engine = require("./lib/engine");
-const { file, anyfile } = require("./lib/targets/file");
+const { file, present, anyfile } = require("./lib/targets/file");
 const { virt, anyvirt } = require("./lib/targets/virtual");
 
 const any = {
@@ -11,7 +11,26 @@ exports._bddy = function() {
 	return new engine.Context();
 };
 exports.file = file;
+exports.present = present;
 exports.virt = virt;
+
+class BuildFunctionSet {
+	constructor(context, coTFn, args) {
+		this.context = context;
+		this.coTFn = coTFn;
+		this.args = args;
+	}
+	def(f) {
+		return this.context.def(this.coTFn(...this.args), f);
+	}
+	alsodir() {
+		new BuildFunctionSet(this.context, any.file, [
+			this.args[0].replace(/[/\\][^/\\]+$/, "")
+		]).def(this.context.ensureDir);
+		return this;
+	}
+}
+const BuildEntryT = (ctx, coTFn) => (...args) => new BuildFunctionSet(ctx, coTFn, args);
 
 //predefs
 const existingFile = require("./lib/predefs/existingFile");
@@ -27,9 +46,7 @@ exports.bddy = function(defs, argv) {
 	r.loadPlugin({ command: new Command(), dir: new Dir(), fileops: new FileOps() });
 	const forany = {};
 	for (let type in any) {
-		forany[type] = (...args) => ({
-			def: f => r.def(any[type](...args), f)
-		});
+		forany[type] = BuildEntryT(r, any[type]);
 	}
 
 	if (defs) {
