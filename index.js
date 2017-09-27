@@ -11,7 +11,6 @@ exports._bddy = function() {
 	return new engine.Context();
 };
 exports.file = file;
-exports.present = present;
 exports.virt = virt;
 
 class BuildFunctionSet {
