@@ -34,6 +34,6 @@ module.exports = function(defs) {
 	build(defs, argv).catch(function(e) {
 		const renderedError = pe.render(e);
 		console.log(renderedError);
-		process.exit(1);
+		if (!e.bddyIgnorable) process.exit(1);
 	});
 };
