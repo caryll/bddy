@@ -19,8 +19,12 @@ pe.appendStyle({
 	"pretty-error > trace > item > footer > addr": { display: "none" }
 });
 
-async function build(defs, argv) {
-	const bddyInst = bddy(defs, argv);
+async function build(defs, argv, _options) {
+	const defaultOptions = {
+		parallelJobs: argv.j
+	};
+	const options = Object.assign(defaultOptions, _options);
+	const bddyInst = bddy(defs, argv, options);
 	const targets = argv.targets || argv._;
 	if (argv._.length) {
 		for (let wish of argv._) {
@@ -31,8 +35,24 @@ async function build(defs, argv) {
 	}
 }
 
-module.exports = function(defs, _argv) {
-	build(defs, _argv || yargs.argv).catch(function(e) {
+function parseARGV(yargs, _argopt) {
+	const argopt = Object.assign(
+		{
+			j: {
+				alias: "jobs",
+				number: true,
+				default: 0,
+				requiresArg: true,
+				describe: "Allow N jobs at once (incluences <run>); 0 for CPU cores of your system"
+			}
+		},
+		_argopt
+	);
+	return yargs.options(argopt).argv;
+}
+
+module.exports = function(defs, argopt, options) {
+	build(defs, parseARGV(yargs, argopt), options).catch(function(e) {
 		const renderedError = pe.render(e);
 		console.log(renderedError);
 		if (!e.bddyIgnorable) process.exit(1);

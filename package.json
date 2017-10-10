@@ -1,6 +1,6 @@
 {
 	"name": "bddy",
-	"version": "0.5.1",
+	"version": "0.6.0",
 	"description": "First class, Secondary category, Unrestricted building system.",
 	"main": "cli.js",
 	"scripts": {
@@ -17,7 +17,7 @@
 	},
 	"homepage": "https://github.com/caryll/bddy#readme",
 	"dependencies": {
-		"bddy-core": "^0.5.1",
+		"bddy-core": "^0.6.0",
 		"pretty-error": "^2.1.1",
 		"yargs": "^9.0.0"
 	},
