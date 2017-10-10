@@ -1,5 +1,5 @@
-const argv = require("yargs").argv;
-const { bddy } = require("./index");
+const yargs = require("yargs");
+const { bddy } = require("bddy-core");
 const PrettyError = require("pretty-error");
 const pe = new PrettyError();
 
@@ -21,6 +21,7 @@ pe.appendStyle({
 
 async function build(defs, argv) {
 	const bddyInst = bddy(defs, argv);
+	const targets = argv.targets || argv._;
 	if (argv._.length) {
 		for (let wish of argv._) {
 			await bddyInst.wish(wish);
@@ -30,8 +31,8 @@ async function build(defs, argv) {
 	}
 }
 
-module.exports = function(defs) {
-	build(defs, argv).catch(function(e) {
+module.exports = function(defs, _argv) {
+	build(defs, _argv || yargs.argv).catch(function(e) {
 		const renderedError = pe.render(e);
 		console.log(renderedError);
 		if (!e.bddyIgnorable) process.exit(1);
