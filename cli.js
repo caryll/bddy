@@ -30,6 +30,10 @@ async function build(defs, argv, _options) {
 		for (let wish of argv._) {
 			await bddyInst.wish(wish);
 		}
+	} else if (bddyInst.wanted && bddyInst.wanted.length) {
+		for (let wish of bddyInst.wanted) {
+			await bddyInst.wish(wish);
+		}
 	} else {
 		await bddyInst.wish("start");
 	}
