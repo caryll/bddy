@@ -21,7 +21,9 @@ pe.appendStyle({
 
 async function build(defs, argv, _options) {
 	const defaultOptions = {
-		parallelJobs: argv.j
+		parallelJobs: argv.j,
+		quiet: argv.q,
+		verbose: argv.v
 	};
 	const options = Object.assign(defaultOptions, _options);
 	const bddyInst = bddy(defs, argv, options);
@@ -48,6 +50,18 @@ function parseARGV(yargs, _argopt) {
 				default: 0,
 				requiresArg: true,
 				describe: "Allow N jobs at once (incluences <run>); 0 for CPU cores of your system"
+			},
+			q: {
+				boolean: true,
+				alias: "quiet",
+				default: false,
+				describe: "Quiet Mode"
+			},
+			v: {
+				boolean: true,
+				alias: "verbose",
+				default: false,
+				describe: "Verbose Mode"
 			}
 		},
 		_argopt
